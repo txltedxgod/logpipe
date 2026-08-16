@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>logpipe</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="toolbar">
+        <h1>logpipe</h1>
+        <div class="controls">
+            <select id="sourceFilter">
+                <option value="">all sources</option>
+            </select>
+            <select id="levelFilter">
+                <option value="">all levels</option>
+                <option value="critical">critical</option>
+                <option value="error">error</option>
+                <option value="warning">warning</option>
+                <option value="info">info</option>
+                <option value="debug">debug</option>
+            </select>
+            <input type="text" id="searchBox" placeholder="search...">
+            <label class="toggle">
+                <input type="checkbox" id="autoScroll" checked>
+                auto-scroll
+            </label>
+            <button id="clearBtn">clear</button>
+            <span id="lineCount" class="count">0 lines</span>
+        </div>
+    </div>
+    <div id="logContainer" class="log-container"></div>
+    <div id="status" class="status">connecting...</div>
+    <script src="/static/app.js"></script>
+</body>
+</html>
