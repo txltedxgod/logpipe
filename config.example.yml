@@ -1,0 +1,9 @@
+sources:
+  - name: app
+    path: ./logs/app.log
+  - name: nginx
+    path: ./logs/nginx.log
+
+max_lines: 1000
+host: 0.0.0.0
+port: 8000
