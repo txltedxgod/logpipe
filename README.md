@@ -1,27 +1,46 @@
 # logpipe
 
-Lightweight real-time log viewer. Tail multiple log files from your server, filter by level, search — all in a terminal-style web UI.
+> Real-time streaming log viewer with WebSocket support, level filtering, and search.
 
-## How it works
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.104-009688?style=flat-square&logo=fastapi)](https://fastapi.tiangolo.com)
+[![WebSocket](https://img.shields.io/badge/WebSocket-Realtime-blueviolet?style=flat-square)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
+[![Python](https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python)](https://python.org)
+[![Docker](https://img.shields.io/badge/Docker-Ready-2496ED?style=flat-square&logo=docker)](https://docker.com)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=flat-square)](LICENSE)
 
-1. Configure log file paths in `config.yml`
-2. logpipe tails each file and streams new lines via WebSocket
-3. The browser UI receives lines in real-time, parses log levels, and lets you filter/search
+`#log-viewer` `#log-tail` `#websockets` `#fastapi` `#observability` `#devops` `#monitoring`
 
-## Quick start
+---
+
+## Features
+
+- **Multi-Source Log Tailing:** Tail multiple log files concurrently from your server.
+- **Auto-Detect Log Levels:** Automatically classifies `ERROR`, `WARN`, `INFO`, `DEBUG`, and `CRITICAL`.
+- **Real-Time Streaming:** Pushes new log lines to connected browsers instantly via WebSockets.
+- **Search & Filter:** Filter logs by origin source, minimum severity level, or substring query.
+- **Terminal UI:** Dark terminal-style interface with auto-scroll and line buffering.
+
+## Quick Start
 
 ```bash
-# copy and edit config
+# 1. Copy config
 cp config.example.yml config.yml
 
-# run
+# 2. Install & Run
 pip install -r requirements.txt
 uvicorn server:app --reload
 ```
 
-Open http://localhost:8000
+Open `http://localhost:8000` in your browser.
 
-## Config
+## Docker
+
+```bash
+docker build -t logpipe .
+docker run -v /var/log:/app/logs -p 8000:8000 logpipe
+```
+
+## Configuration (`config.yml`)
 
 ```yaml
 sources:
@@ -31,27 +50,6 @@ sources:
     path: /var/log/nginx/access.log
 
 max_lines: 1000
+host: 0.0.0.0
+port: 8000
 ```
-
-## Features
-
-- Multi-source log tailing
-- Auto-detect log levels (ERROR, WARN, INFO, DEBUG, CRITICAL)
-- Real-time WebSocket streaming
-- Filter by source and level
-- Full-text search
-- Auto-scroll toggle
-- Terminal-style dark UI
-
-## Docker
-
-```bash
-docker build -t logpipe .
-docker run -v /var/log:/app/logs -p 8000:8000 logpipe
-```
-
-## Stack
-
-- FastAPI + WebSocket
-- asyncio file tailing
-- Vanilla JS
