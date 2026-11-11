@@ -60,18 +60,37 @@ function renderLine(msg) {
     const div = document.createElement('div');
     div.className = 'log-line';
 
-    const ts = msg.ts.split('T')[1].split('.')[0] || msg.ts;
-    div.innerHTML = `<span class="ts">${ts}</span><span class="source">[${msg.source}]</span><span class="level-${msg.level}">[${msg.level.toUpperCase()}]</span> <span class="text">${escapeHtml(msg.line)}</span>`;
+    const rawTs = String(msg.ts || '');
+    const ts = rawTs.includes('T') ? rawTs.split('T')[1].split('.')[0] : rawTs;
+    const level = String(msg.level || 'info').toLowerCase();
+
+    const tsSpan = document.createElement('span');
+    tsSpan.className = 'ts';
+    tsSpan.textContent = ts;
+
+    const srcSpan = document.createElement('span');
+    srcSpan.className = 'source';
+    srcSpan.textContent = `[${msg.source || 'app'}]`;
+
+    const lvlSpan = document.createElement('span');
+    lvlSpan.className = `level-${level}`;
+    lvlSpan.textContent = `[${level.toUpperCase()}]`;
+
+    const txtSpan = document.createElement('span');
+    txtSpan.className = 'text';
+    txtSpan.textContent = msg.line || '';
+
+    div.appendChild(tsSpan);
+    div.appendChild(srcSpan);
+    div.appendChild(lvlSpan);
+    div.appendChild(document.createTextNode(' '));
+    div.appendChild(txtSpan);
 
     container.appendChild(div);
 
     if (autoScrollCb.checked) {
         container.scrollTop = container.scrollHeight;
     }
-}
-
-function escapeHtml(str) {
-    return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
 function rerender() {
